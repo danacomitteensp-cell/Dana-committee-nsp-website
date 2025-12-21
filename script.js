@@ -1,5 +1,5 @@
 // Configuration: app URL (easy to change)
-const DANA_APP_URL = "danacommittee://open";
+const DANA_APP_URL = "danacommittee://";
 
 
 // DOM references
