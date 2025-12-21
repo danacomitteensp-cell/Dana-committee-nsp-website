@@ -1,120 +1,144 @@
-// script.js
+// Configuration: app URL (easy to change)
+const DANA_APP_URL = "danacommittee://open";
+
 
 // DOM references
-const emailForm = document.getElementById('email-form');
-const emailInput = document.getElementById('email-input');
-const findBtn = document.getElementById('find-btn');
-const formMessage = document.getElementById('form-message');
+const emailForm = document.getElementById("email-form");
+const emailInput = document.getElementById("email-input");
+const submitBtn = document.getElementById("submit-btn");
+const statusMessage = document.getElementById("status-message");
 
-const passwordSection = document.getElementById('password-section');
-const passwordInput = document.getElementById('password-input');
-const togglePasswordBtn = document.getElementById('toggle-password-btn');
-const copyPasswordBtn = document.getElementById('copy-password-btn');
-const copyStatus = document.getElementById('copy-status');
+const passwordCard = document.getElementById("password-card");
+const passwordValueEl = document.getElementById("password-value");
+const passwordEmailLabel = document.getElementById("password-email-label");
+const togglePasswordBtn = document.getElementById("toggle-password-btn");
+const eyeIcon = document.getElementById("eye-icon");
+const copyPasswordBtn = document.getElementById("copy-password-btn");
+const copyStatus = document.getElementById("copy-status");
+const openAppBtn = document.getElementById("open-app-btn");
 
-// Simple cache for loaded credentials
+// State
 let credentialsCache = null;
-let isFetching = false;
+let isPasswordVisible = false;
+let currentPassword = "";
 
 /**
- * Set loading state on the Find Password button.
- * @param {boolean} isLoading
- */
-function setButtonLoading(isLoading) {
-  if (!findBtn) return;
-  if (isLoading) {
-    findBtn.classList.add('is-loading');
-  } else {
-    findBtn.classList.remove('is-loading');
-  }
-}
-
-/**
- * Display a message under the email field.
- * @param {"error"|"info"} type
- * @param {string} message
- */
-function showFormMessage(type, message) {
-  if (!formMessage) return;
-  formMessage.textContent = message;
-  formMessage.classList.remove('error', 'info');
-  formMessage.classList.add(type);
-}
-
-/**
- * Show the password section with fade-in animation.
- * @param {string} password
- */
-function showPassword(password) {
-  passwordInput.value = password || '';
-  passwordSection.classList.remove('hidden');
-  // Trigger reflow so adding .visible will animate
-  void passwordSection.offsetWidth;
-  passwordSection.classList.add('visible');
-}
-
-/**
- * Hide the password section.
- */
-function hidePassword() {
-  passwordSection.classList.remove('visible');
-}
-
-/**
- * Fetch credentials JSON file.
- * Uses in-memory cache to avoid repeated fetch calls.
- * @returns {Promise<Array<{email:string,password:string}>>}
+ * Fetch credentials from credentials.json and cache them.
  */
 async function loadCredentials() {
   if (credentialsCache) {
     return credentialsCache;
   }
-  if (isFetching) {
-    // Wait briefly if another request is in progress
-    await new Promise(resolve => setTimeout(resolve, 150));
-    if (credentialsCache) return credentialsCache;
+
+  const response = await fetch("credentials.json");
+  if (!response.ok) {
+    throw new Error("Unable to load credentials");
   }
+  const data = await response.json();
+  credentialsCache = Array.isArray(data) ? data : [];
+  return credentialsCache;
+}
 
-  isFetching = true;
-  try {
-    const response = await fetch('credentials.json', {
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
+/**
+ * Find password by email in loaded credentials.
+ * @param {string} email
+ * @returns {string|null}
+ */
+function findPasswordByEmail(email) {
+  if (!credentialsCache) return null;
+  const normalized = email.trim().toLowerCase();
+  const match = credentialsCache.find((entry) => {
+    return typeof entry.email === "string" &&
+      entry.email.trim().toLowerCase() === normalized;
+  });
+  return match ? String(match.password ?? "") : null;
+}
 
-    if (!response.ok) {
-      throw new Error('Unable to load credentials.');
-    }
-
-    const data = await response.json();
-    // Expecting an array of objects, but be defensive
-    credentialsCache = Array.isArray(data) ? data : [];
-    return credentialsCache;
-  } finally {
-    isFetching = false;
+/**
+ * Set loading state on submit button.
+ * @param {boolean} isLoading
+ */
+function setLoadingState(isLoading) {
+  if (isLoading) {
+    submitBtn.classList.add("btn-loading");
+    submitBtn.disabled = true;
+  } else {
+    submitBtn.classList.remove("btn-loading");
+    submitBtn.disabled = false;
   }
 }
 
 /**
- * Find password by email from loaded credentials.
- * @param {Array<{email:string,password:string}>} credentials
- * @param {string} email
- * @returns {string|null}
+ * Show status text under the input.
+ * @param {string} message
+ * @param {"error"|"info"} type
  */
-function findPasswordByEmail(credentials, email) {
-  if (!Array.isArray(credentials)) return null;
-  const normalizedEmail = email.trim().toLowerCase();
-
-  const match = credentials.find(entry => {
-    if (!entry || typeof entry.email !== 'string') return false;
-    return entry.email.trim().toLowerCase() === normalizedEmail;
-  });
-
-  if (!match || typeof match.password !== 'string') {
-    return null;
+function showStatus(message, type) {
+  statusMessage.textContent = message;
+  statusMessage.classList.remove("error", "info");
+  if (type) {
+    statusMessage.classList.add(type);
   }
-  return match.password;
+}
+
+/**
+ * Reveal password card with fade-in.
+ * @param {string} email
+ * @param {string} password
+ */
+function revealPasswordCard(email, password) {
+  currentPassword = password;
+  isPasswordVisible = false;
+
+  passwordValueEl.textContent = "•".repeat(Math.max(password.length, 6));
+  passwordEmailLabel.textContent = email;
+
+  togglePasswordBtn.setAttribute("aria-pressed", "false");
+  togglePasswordBtn.setAttribute("aria-label", "Show password");
+
+  copyStatus.textContent = "";
+  copyStatus.classList.remove("success", "error");
+
+  passwordCard.classList.add("visible");
+  passwordCard.setAttribute("aria-hidden", "false");
+}
+
+/**
+ * Toggle password visibility.
+ */
+function togglePasswordVisibility() {
+  if (!currentPassword) return;
+
+  isPasswordVisible = !isPasswordVisible;
+
+  if (isPasswordVisible) {
+    passwordValueEl.textContent = currentPassword;
+    togglePasswordBtn.setAttribute("aria-pressed", "true");
+    togglePasswordBtn.setAttribute("aria-label", "Hide password");
+  } else {
+    passwordValueEl.textContent = "•".repeat(Math.max(currentPassword.length, 6));
+    togglePasswordBtn.setAttribute("aria-pressed", "false");
+    togglePasswordBtn.setAttribute("aria-label", "Show password");
+  }
+}
+
+/**
+ * Copy password value to clipboard.
+ */
+async function copyPasswordToClipboard() {
+  if (!currentPassword) return;
+
+  copyStatus.textContent = "";
+  copyStatus.classList.remove("success", "error");
+
+  try {
+    await navigator.clipboard.writeText(currentPassword);
+    copyStatus.textContent = "Password copied to clipboard.";
+    copyStatus.classList.add("success");
+  } catch (err) {
+    copyStatus.textContent = "Unable to copy. Please copy manually.";
+    copyStatus.classList.add("error");
+  }
 }
 
 /**
@@ -123,104 +147,58 @@ function findPasswordByEmail(credentials, email) {
  */
 async function handleEmailSubmit(event) {
   event.preventDefault();
-  copyStatus.textContent = '';
-  copyStatus.classList.remove('success', 'error');
 
-  const emailValue = emailInput.value.trim();
-
-  if (!emailValue) {
-    showFormMessage('error', 'Please enter your registered email.');
-    hidePassword();
+  const email = emailInput.value.trim();
+  if (!email) {
+    showStatus("Please enter your registered email.", "error");
     return;
   }
 
-  // Optional basic email pattern check
-  const basicEmailPattern = /\S+@\S+\.\S+/;
-  if (!basicEmailPattern.test(emailValue)) {
-    showFormMessage('error', 'Please enter a valid email address.');
-    hidePassword();
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    showStatus("Please enter a valid email address.", "error");
     return;
   }
 
-  showFormMessage('info', 'Looking up your password…');
-  setButtonLoading(true);
-  hidePassword();
+  showStatus("Fetching your password…", "info");
+  setLoadingState(true);
 
   try {
-    const credentials = await loadCredentials();
-    const password = findPasswordByEmail(credentials, emailValue);
+    await loadCredentials();
+    const password = findPasswordByEmail(email);
 
     if (!password) {
-      showFormMessage('error', 'Email not found.');
+      showStatus("Email not found.", "error");
+      passwordCard.classList.remove("visible");
+      passwordCard.setAttribute("aria-hidden", "true");
+      currentPassword = "";
       return;
     }
 
-    showFormMessage('info', 'Password found. Displayed securely below.');
-    showPassword(password);
-  } catch (err) {
-    showFormMessage('error', 'Something went wrong. Please try again.');
+    showStatus("", "info");
+    revealPasswordCard(email, password);
+  } catch (error) {
+    console.error(error);
+    showStatus("Something went wrong. Please try again.", "error");
   } finally {
-    setButtonLoading(false);
+    setLoadingState(false);
   }
 }
 
 /**
- * Toggle password visibility.
+ * Handle Open App button click.
  */
-function togglePasswordVisibility() {
-  const isCurrentlyPassword = passwordInput.type === 'password';
-  passwordInput.type = isCurrentlyPassword ? 'text' : 'password';
-
-  if (isCurrentlyPassword) {
-    togglePasswordBtn.classList.add('is-visible');
-    togglePasswordBtn.setAttribute('aria-label', 'Hide password');
-    togglePasswordBtn.setAttribute('aria-pressed', 'true');
-  } else {
-    togglePasswordBtn.classList.remove('is-visible');
-    togglePasswordBtn.setAttribute('aria-label', 'Show password');
-    togglePasswordBtn.setAttribute('aria-pressed', 'false');
-  }
-}
-
-/**
- * Copy password to clipboard.
- */
-async function copyPasswordToClipboard() {
-  const value = passwordInput.value || '';
-
-  if (!value) {
-    copyStatus.textContent = 'Nothing to copy.';
-    copyStatus.classList.remove('success');
-    copyStatus.classList.add('error');
-    return;
-  }
-
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(value);
-    } else {
-      // Fallback for older browsers
-      passwordInput.select();
-      document.execCommand('copy');
-      passwordInput.setSelectionRange(0, 0);
-    }
-    copyStatus.textContent = 'Password copied to clipboard.';
-    copyStatus.classList.remove('error');
-    copyStatus.classList.add('success');
-  } catch (err) {
-    copyStatus.textContent = 'Unable to copy. Please copy manually.';
-    copyStatus.classList.remove('success');
-    copyStatus.classList.add('error');
-  }
+function handleOpenApp() {
+  window.location.href = DANA_APP_URL;
 }
 
 /**
  * Initialize event listeners.
  */
 function init() {
-  emailForm.addEventListener('submit', handleEmailSubmit);
-  togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
-  copyPasswordBtn.addEventListener('click', copyPasswordToClipboard);
+  emailForm.addEventListener("submit", handleEmailSubmit);
+  togglePasswordBtn.addEventListener("click", togglePasswordVisibility);
+  copyPasswordBtn.addEventListener("click", copyPasswordToClipboard);
+  openAppBtn.addEventListener("click", handleOpenApp);
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener("DOMContentLoaded", init);
