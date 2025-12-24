@@ -1,347 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Welcome to Dana Committee - Project Change</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Animated background blobs -->
-    <div class="blob-bg"></div>
-    <div class="blob-bg"></div>
-    <div class="blob-bg"></div>
-
-    <main class="page">
-      <!-- Hero Section -->
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-inner glass-shell">
-          <div class="hero-content">
-            <div class="hero-logo" aria-hidden="true">
-              <!-- Project Change Logo Image -->
-              <img
-                src="assets\logo.png"
-                alt="Project Change Logo"
-                class="logo-img project-logo"
-              />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dana Committee App - Modern committee management solution by Nalasopara Team">
+    <title>Dana Committee - First Step in Project Change</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Dana Committee Logo" class="nav-logo">
+                <span class="nav-title">Dana Committee</span>
             </div>
-            <h1 id="hero-title" class="hero-title">Dana Committee</h1>
-            <p class="hero-subtitle">
-              First Step in Project Change<br /><span
-                class="subtitle-highlight"
-              >
-                by Nalasopara Team
-              </span>
-            </p>
-          </div>
-        </div>
-      </section>
-      <section class="download-section">
-        <h3>Download The Dana Committee App</h3>
-        <p>Install our official app for the best experience.</p>
-        <a href="https://github.com/danacomitteensp-cell/Dana-committee-nsp-website/releases/download/v1.0.0/Dana-Committee-App.apk" download class="btn-download"
-          >Download App</a
-        >
-      </section>
-
-      <!-- Email Input Section -->
-      <section class="email-section" aria-label="Password finder">
-        <div class="email-card glass-card">
-          <form id="email-form" class="email-form" novalidate>
-            <label for="email-input" class="email-label"
-              >Enter your registered email</label
-            >
-            <div class="input-row">
-              <div class="input-shell">
-                <div class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" class="icon-24">
-                    <path
-                      fill="currentColor"
-                      d="M4 4h16a2 2 0 0 1 2 2v0.5l-10 6.25L2 6.5V6a2 2 0 0 1 2-2zm18 4.2-9.35 5.84a1.5 1.5 0 0 1-1.3 0L2 8.2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.2z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  id="email-input"
-                  name="email"
-                  type="email"
-                  class="email-input"
-                  autocomplete="email"
-                  placeholder="you@example.com"
-                  required
-                  aria-required="true"
-                />
-              </div>
-              <button type="submit" class="btn btn-primary" id="submit-btn">
-                <span class="btn-label">Find Password</span>
-                <span class="btn-spinner" aria-hidden="true">
-                  <svg viewBox="0 0 50 50" class="spinner-icon">
-                    <circle class="spinner-track" cx="25" cy="25" r="20" />
-                    <circle class="spinner-head" cx="25" cy="25" r="20" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <p class="input-hint">
-              Your password is fetched securely from Dana Committee Nalasopara's
-              database
-            </p>
-            <p
-              class="status-message"
-              id="status-message"
-              role="status"
-              aria-live="polite"
-            ></p>
-          </form>
-        </div>
-      </section>
-
-      <!-- Password Viewer Section -->
-      <section class="password-section" aria-label="Password viewer">
-        <div
-          class="password-card glass-card"
-          id="password-card"
-          aria-hidden="true"
-        >
-          <header class="password-header">
-            <div class="password-title-wrap">
-              <!-- Dana Committee App Logo Image -->
-              <div class="password-icon dana-logo-small" aria-hidden="true">
-                <img
-                  src="assets\logo.png"
-                  alt="Dana Committee Logo"
-                  class="logo-img dana-logo"
-                />
-              </div>
-              <div class="password-heading-block">
-                <h2 class="password-title">Your Password</h2>
-                <p class="password-subtitle" id="password-email-label"></p>
-              </div>
-            </div>
-          </header>
-          <div class="password-body">
-            <div class="password-display">
-              <div class="password-field" aria-live="polite">
-                <span id="password-value" class="password-text">••••••••</span>
-              </div>
-              <div class="password-actions">
-                <button
-                  type="button"
-                  class="icon-btn"
-                  id="toggle-password-btn"
-                  aria-label="Show password"
-                  aria-pressed="false"
-                >
-                  <svg viewBox="0 0 24 24" class="icon-20" id="eye-icon">
-                    <path
-                      fill="currentColor"
-                      d="M12 5C7 5 3.3 8.1 2 12c1.3 3.9 5 7 10 7s8.7-3.1 10-7c-1.3-3.9-5-7-10-7zm0 11.2A4.2 4.2 0 1 1 16.2 12 4.2 4.2 0 0 1 12 16.2zm0-6.7A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="icon-btn"
-                  id="copy-password-btn"
-                  aria-label="Copy password"
-                >
-                  <svg viewBox="0 0 24 24" class="icon-20">
-                    <path
-                      fill="currentColor"
-                      d="M8 3a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-1v-2h1V3h-9v1H8V3zm-5 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm2 0v12h8V7H5z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <p class="copy-status" id="copy-status" aria-live="polite"></p>
-          </div>
-          <footer class="password-footer">
-            <button
-              type="button"
-              class="btn btn-secondary btn-full"
-              id="open-app-btn"
-            >
-              <span class="btn-label">Open Dana Committee App</span>
-              <span class="btn-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" class="icon-20">
-                  <path
-                    fill="currentColor"
-                    d="M5 12h11.17l-4.58-4.59L13 6l7 7-7 7-1.41-1.41L16.17 13H5z"
-                  />
-                </svg>
-              </span>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
             </button>
-          </footer>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#retrieve" class="nav-link">Get Password</a></li>
+                <li><a href="#video" class="nav-link">Watch Video</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#download" class="nav-link nav-link-cta">Download App</a></li>
+            </ul>
         </div>
-      </section>
+    </nav>
 
-      <!-- Vision Section -->
-      <section class="section project-vision" aria-labelledby="project-title">
-        <div class="section-inner">
-          <div class="project-header">
-            <img
-              src="assets\logo.png"
-              alt="Dana Committee Logo"
-              class="logo-img project-logo-large"
-            />
-            <h2 id="project-title" class="section-title">
-              Transforming Committee Management
-            </h2>
-          </div>
-          <p class="section-text large">
-            The Dana Committee App represents a significant step forward in
-            modernizing and streamlining community contribution management. Our
-            objective is to provide a secure, reliable, and structured digital
-            environment for managing member data, credentials, contributions,
-            and event activities with clarity and confidence.
-          </p>
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <img src="assets\logo.png" alt="Dana Committee" class="badge-icon">
+            </div>
+            <h1 class="hero-title">Dana Committee</h1>
+            <p class="hero-subtitle">First Step in Project Change</p>
+            <p class="hero-byline">by Nalasopara Team</p>
+            <div class="hero-actions">
+                <a href="#retrieve" class="btn btn-hero-primary">Get Your Password</a>
+                <a href="#download" class="btn btn-hero-secondary">Download App</a>
+            </div>
         </div>
-      </section>
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll to explore</span>
+            <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+    <!-- Video Section -->
+    <section class="section section-video" id="video">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title"> Dana Committee App Launch </h2>
+                <p class="section-description">Watch how our app transforms committee management</p>
+            </div>
+            
+            <div class="video-container">
+                <video 
+                    class="video-player" 
+                    controls
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    poster="video-poster.jpg">
+                    <!-- Replace with your actual video URL -->
+                    <source src="assets\Dana App-Launch-Video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+     <!-- Download Section -->
+    <section class="section section-download" id="download">
+        <div class="container">
+            <div class="download-card">
+                <div class="download-icon">
+                    <img src="assets\Dana-App-Logo.png" alt="Dana Committee" class="download-icon-img">
+                </div>
+                <h2 class="download-title">Download The Dana Committee App</h2>
+                <p class="download-description">Install our official app for the best experience with all features at your fingertips.</p>
+                <a href="#" class="btn btn-download">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                    </svg>
+                    Download App
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Password Retrieval Section -->
+    <section class="section section-retrieve" id="retrieve">
+        <div class="container">
+            <div class="glass-shell">
+                <div class="hero-inner">
+                    <div class="hero-logo">
+                        <img src="assets\Dana-App-Logo.png" alt="Dana Committee" class="logo-img">
+                    </div>
+                    <h2 class="hero-title">Retrieve Your Password</h2>
+                    <p class="hero-subtitle">Enter your registered email address below</p>
+                </div>
 
-      <!-- Dana Committee App Section -->
-      <section class="section app-spotlight" aria-labelledby="app-title">
-        <div class="section-inner">
-          <div class="app-header">
-            <img
-              src="assets\Dana-App-Logo.png"
-              alt="Dana Committee Logo"
-              class="logo-img dana-logo-large"
-            />
-            <h2 id="app-title" class="section-title">Key Capabilities</h2>
-          </div>
+                <!-- Email Form -->
+                <div class="email-card glass-card">
+                    <form id="email-form" class="email-form">
+                        <p class="email-label">Your registered email</p>
+                        <div class="input-row">
+                            <div class="input-shell">
+                                <div class="input-icon">
+                                    <svg class="icon-24" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                    </svg>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    id="email-input" 
+                                    class="email-input" 
+                                    placeholder="example@domain.com"
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">
+                                <span class="btn-label">Submit</span>
+                                <span class="btn-spinner">
+                                    <svg class="spinner-icon" viewBox="0 0 24 24">
+                                        <circle class="spinner-track" cx="12" cy="12" r="10"/>
+                                        <path class="spinner-head" d="M12 2a10 10 0 0 1 10 10"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                        <div id="status-message" class="status-message"></div>
+                    </form>
+                </div>
 
-          <div class="app-features">
-            <div class="app-feature">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" class="icon-24">
-                  <path
-                    fill="currentColor"
-                    d="M12 2L5 5v6c0 5 3.5 9.4 7 11 3.5-1.6 7-6 7-11V5l-7-3zm0 3.1 4 1.8v4.9c0 3.4-2.1 6.8-4 7.8-1.9-1-4-4.4-4-7.8V6.9l4-1.8zm0 3.4a2.5 2.5 0 0 0-2.5 2.5v1.1A2.5 2.5 0 0 0 12 15.6a2.5 2.5 0 0 0 2.5-2.5V11A2.5 2.5 0 0 0 12 8.5z"
-                  />
-                </svg>
-              </div>
-              <div class="feature-content">
-                <h3>Credential Access</h3>
-                <p>
-                  Each member receives secure, individualized access to their
-                  login credentials, ensuring privacy and eliminating dependency
-                  on manual sharing.
+                <!-- Password Display Card -->
+                <div id="password-card" class="password-card glass-card" aria-hidden="true">
+                    <div class="password-header">
+                        <div class="password-title-wrap">
+                            <div class="password-icon">
+                                <svg class="icon-24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                                </svg>
+                            </div>
+                            <div class="password-heading-block">
+                                <h3 class="password-title">Password</h3>
+                                <p id="password-email-label" class="password-subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="password-body">
+                        <div class="password-display">
+                            <div class="password-field">
+                                <span id="password-value" class="password-text">••••••••</span>
+                            </div>
+                            <div class="password-actions">
+                                <button 
+                                    id="toggle-password-btn" 
+                                    class="icon-btn" 
+                                    aria-label="Show password"
+                                    aria-pressed="false">
+                                    <svg id="eye-icon" class="icon-20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                    </svg>
+                                </button>
+                                <button 
+                                    id="copy-password-btn" 
+                                    class="icon-btn" 
+                                    aria-label="Copy password">
+                                    <svg class="icon-20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <p id="copy-status" class="copy-status"></p>
+                    </div>
+
+                    <div class="password-footer">
+                        <button id="open-app-btn" class="btn btn-secondary btn-full">
+                            <svg class="icon-20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                            Open Dana Committee App
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- About Section -->
+    <section class="section section-about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-icon">
+                    <img src="assets\Dana-App-Logo.png" alt="Dana Committee" class="about-icon-img">
+                </div>
+                <h2 class="section-title">Transforming Committee Management</h2>
+                <p class="section-description large">
+                    The Dana Committee App represents a significant step forward in modernizing and streamlining community contribution management. Our objective is to provide a secure, reliable, and structured digital environment for managing member data, credentials, contributions, and event activities with clarity and confidence.
                 </p>
-              </div>
             </div>
-
-            <div class="app-feature">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" class="icon-24">
-                  <path
-                    fill="currentColor"
-                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"
-                  />
-                </svg>
-              </div>
-              <div class="feature-content">
-                <h3>Contribution Tracking</h3>
-                <p>
-                  Maintain accurate and transparent records of member
-                  contributions, allowing committees to monitor data
-                  effortlessly and reduce administrative workload.
-                </p>
-              </div>
-            </div>
-
-            <div class="app-feature">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" class="icon-24">
-                  <path
-                    fill="currentColor"
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                  />
-                </svg>
-              </div>
-              <div class="feature-content">
-                <h3>Miqaat & Member Management</h3>
-                <p>
-                  Create and manage events, track attendance, and access member
-                  information with ease , all optimized for mobile use.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <!-- Future Projects Section -->
-      <!-- <section class="section future-projects" aria-labelledby="future-title">
-      <div class="section-inner">
-        <h2 id="future-title" class="section-title">Coming Soon</h2>
-        <p class="section-text">
-          Our team is actively developing the next phase of Project Change. Stay tuned for innovative tools that will complement Dana Committee and drive community transformation forward.
-        </p>
-        <div class="future-teasers">
-          <div class="future-teaser glass-card">
-            <div class="teaser-icon">
-              <svg viewBox="0 0 24 24" class="icon-24">
-                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-              </svg>
+    <!-- Features Section -->
+    <section class="section section-features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Key Capabilities</h2>
+                <p class="section-description">Powerful features designed for modern committee management</p>
             </div>
-            <h3>Community Hub</h3>
-            <p>Centralized platform for all group communications and coordination.</p>
-          </div>
-          <div class="future-teaser glass-card">
-            <div class="teaser-icon">
-              <svg viewBox="0 0 24 24" class="icon-24">
-                <path fill="currentColor" d="M19 3H4.99c-1.11 0-1.98.9-1.98 2L3 19c0 1.1.88 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H4.99V5H19v10zm-3-5h-2V7h-4v3H8l4 4 4-4z" />
-              </svg>
-            </div>
-            <h3>Advanced Analytics</h3>
-            <p>Data insights and reporting for better decision making.</p>
-          </div>
-          <div class="future-teaser glass-card">
-            <div class="teaser-icon">
-              <svg viewBox="0 0 24 24" class="icon-24">
-                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-              </svg>
-            </div>
-            <h3>AI Assistant</h3>
-            <p>Intelligent automation for committee operations.</p>
-          </div>
-        </div>
-      </div>
-    </section> -->
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Credential Access</h3>
+                    <p class="feature-description">
+                        Each member receives secure, individualized access to their login credentials, ensuring privacy and eliminating dependency on manual sharing.
+                    </p>
+                </div>
 
-      <!-- Footer -->
-      <footer class="site-footer">
-        <div class="footer-inner">
-          <div class="footer-logos">
-            <img
-              src="assets\logo.png"
-              alt="Project Change Logo"
-              class="logo-img project-logo-small"
-            />
-            <img
-              src="assets\Dana-App-Logo.png"
-              alt="Dana Committee Logo"
-              class="logo-img dana-logo-small"
-            />
-          </div>
-          <p class="footer-text">
-            © 2025 Project Change. <br />
-            Dana Committee.
-          </p>
-          <div class="footer-links">
-            <a href="#" class="footer-link">Privacy</a>
-            <a href="#" class="footer-link">Terms</a>
-            <a href="#" class="footer-link">Contact</a>
-          </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Contribution Tracking</h3>
+                    <p class="feature-description">
+                        Maintain accurate and transparent records of member contributions, allowing committees to monitor data effortlessly and reduce administrative workload.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Miqaat & Member Management</h3>
+                    <p class="feature-description">
+                        Create and manage events, track attendance, and access member information with ease, all optimized for mobile use.
+                    </p>
+                </div>
+            </div>
         </div>
-      </footer>
-    </main>
+    </section>
+
+   
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/logo.png" alt="Dana Committee Logo" class="footer-logo">
+                    <span class="footer-title">Dana Committee</span>
+                </div>
+                <p class="footer-text">Transforming committee management for modern communities</p>
+                <p class="footer-credit">&copy; 2025 Dana Committee by Nalasopara Team. <br>  All rights reserved.</p>
+            </div>
+        </div>
+    </section>
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
