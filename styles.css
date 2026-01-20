@@ -872,6 +872,7 @@ body {
     box-shadow: 0 12px 24px rgba(81, 37, 23, 0.4);
     font-size: 1.05rem;
     padding: 18px 36px;
+    pointer-events: none;
 }
 
 .btn-download:hover {
